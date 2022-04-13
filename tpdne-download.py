@@ -1,5 +1,3 @@
-# from https://pastebin.com/b1LKabJk
-
 import urllib.request
 import time
 from random import uniform
