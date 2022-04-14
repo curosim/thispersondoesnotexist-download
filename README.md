@@ -1,2 +1,19 @@
 # thispersondoesnotexist-download
-Download images from thispersondoesnotexist.com
+Automated download of faces from thispersondoesnotexist.com
+
+
+### Description:
+Downloads a certain amount of images from thispersondoesnotexist.com and stores them in a folder (./images/).
+After downloading, it will remove any duplicates so we only have unique images.
+
+### Usage:
+```
+python tpdne-download.py
+```
+The script is interactive, simply start it and enter the number of images to download.
+
+
+### About the script:
+While the script uses multiprocessing for the requests, it's designed to not work particularly fast.
+The reason for that is based on how thispersondoesnotexist.com work - it generates a new image based on time and not on requests.
+So if we work with 20 threads, it will just download the same image multiple times, which will be removed by the duplicate checker anyway.
