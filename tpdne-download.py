@@ -7,61 +7,61 @@ import glob
 import os
 import hashlib
 
-#change to maximum number of images needed
-number_of_images = int(input("Enter number of images: "))
-
 def file_hash(filepath):
+	""" Generate MD5 Hash of an file.
+	"""
 	with open(filepath, 'rb') as f:
 		return hashlib.md5(f.read()).hexdigest()
 
 def remove_duplicates():
-	print("[*] Removing duplicates now")
+	""" Remove duplicate images.
+	"""
 	hashes = []
-	for jpgfile in glob.iglob(os.path.join('.', "*.jpg")):
+	for jpgfile in glob.iglob(os.path.join('./images/', "*.jpg")):
 		md5_hash = file_hash(jpgfile)
 		if md5_hash in hashes: os.remove(jpgfile)
 		else: hashes.append(md5_hash)
-	print("[*] {0} unique images in total...".format(len(hashes)))
+	return hashes
 
 def download_image(i):
+	""" Download image from thispersondoesnotexist.com
+	"""
 	time.sleep(uniform(0.1,2))
 	print("Downloading Image: {0}".format(i))
-	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) Firefox/81.{0}'.format(i)}
+	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
 	try:
 		response = requests.get('https://thispersondoesnotexist.com/image', headers=headers)
 		if response.status_code == 200:
-			img_name = "image{0}.jpg".format(i)
-			with open(img_name, 'wb') as f:
+			img_path = "images/face_{0}.jpg".format(i)
+			with open(img_path, 'wb') as f:
 				f.write(response.content)
 	except: pass
 
+def banner():
+	print("  __________  ____  _   ________   ____                      __                __")
+	print(" /_  __/ __ \\/ __ \\/ | / / ____/  / __ \\____ _      ______  / /___  ____ _____/ /")
+	print("  / / / /_/ / / / /  |/ / __/    / / / / __ \\ | /| / / __ \\/ / __ \\/ __ `/ __  / ")
+	print(" / / / ____/ /_/ / /|  / /___   / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  ")
+	print("/_/ /_/   /_____/_/ |_/_____/  /_____/\\____/|__/|__/_/ /_/_/\\____/\\__,_/\\__,_/   ")
+	print("                                                                                 ")
+	print("Version: 1.0 - Author: @curosim")
+
+
 def main():
-	# Make the Pool of workers
-	pool = ThreadPool(10)
 
-	# Open the URLs in their own threads
-	# and return the results
+	#change to maximum number of images needed
+	number_of_images = int(input("[*] Enter number of images: "))
+
+	# Download images with multiple threads
+	pool = ThreadPool(5)
 	results = pool.map(download_image, range(0, number_of_images))
-
-	# Close the pool and wait for the work to finish
 	pool.close()
 	pool.join()
 
-	print("Done...")
-
-	remove_duplicates()
-
+	print("[*] {0} images downloaded".format(number_of_images))
+	print("[*] Removing duplicates now")
+	hashes = remove_duplicates()
+	print("[!] Found {0} unique images, {1} duplicates removed".format(len(hashes), number_of_images-len(hashes)))
+	print("[*] Execution finished")
 
 main()
-
-
-"""
-for num in range(0,number_of_images):
-	print("downloading image number " + str(num+1))
-	#opener = urllib.request.build_opener()
-	#opener.addheaders = [('User-agent', 'Mozilla/5.0 (Windows NT 6.2; WOW64; rv:63.0) Gecko/20100101 Firefox/63.0')]
-	#urllib.request.install_opener(opener)
-	#urllib.request.urlretrieve("https://thispersondoesnotexist.com/image", "image" + str(num+1) + ".jpg")
-	if num < number_of_images:
-		time.sleep(uniform(1.3,3.4))
-"""
