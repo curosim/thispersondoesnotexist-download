@@ -44,10 +44,11 @@ def banner():
 	print(" / / / ____/ /_/ / /|  / /___   / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  ")
 	print("/_/ /_/   /_____/_/ |_/_____/  /_____/\\____/|__/|__/_/ /_/_/\\____/\\__,_/\\__,_/   ")
 	print("                                                                                 ")
-	print("Version: 1.0 - Author: @curosim")
+	print("Automate the download of faces from thispersondoesnotexist.com - Author: @curosim\n")
 
 
 def main():
+	banner()
 
 	#change to maximum number of images needed
 	number_of_images = int(input("[*] Enter number of images: "))
