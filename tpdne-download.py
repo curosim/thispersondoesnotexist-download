@@ -31,7 +31,7 @@ def download_image(i):
 
 	# This sleep function is of course not really necessary, but since the website generates a new image based on time
 	# and not request, we want some delay in our requests to have more unique images. Duplicates get removed anyway.
-	time.sleep(uniform(0.1,5))
+	time.sleep(uniform(0.1,3))
 
 	print("  > Downloading Image: {0}".format(i+1))
 	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
