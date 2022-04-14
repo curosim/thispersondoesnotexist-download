@@ -6,15 +6,19 @@ import requests
 import glob
 import os
 import hashlib
+import time
+
+# Appendix for image file names, simply so we wont overwrite images from previous executions.
+timestamp = int(time.time())
 
 def file_hash(filepath):
-	""" Generate MD5 Hash of an file.
+	""" Generate MD5 Hash of a file.
 	"""
 	with open(filepath, 'rb') as f:
 		return hashlib.md5(f.read()).hexdigest()
 
 def remove_duplicates():
-	""" Remove duplicate images.
+	""" Remove duplicate images, duplicates are found with MD5 Hash.
 	"""
 	hashes = []
 	for jpgfile in glob.iglob(os.path.join('./images/', "*.jpg")):
@@ -24,7 +28,7 @@ def remove_duplicates():
 	return hashes
 
 def download_image(i):
-	""" Download image from thispersondoesnotexist.com
+	""" Download image from thispersondoesnotexist.com and save it as JPG.
 	"""
 
 	# This sleep function is of course not really necessary, but since the website generates a new image based on time
@@ -36,7 +40,7 @@ def download_image(i):
 	try:
 		response = requests.get('https://thispersondoesnotexist.com/image', headers=headers)
 		if response.status_code == 200:
-			img_path = "images/face_{0}.jpg".format(i)
+			img_path = "images/{0}_face_{1}.jpg".format(timestamp, i)
 			with open(img_path, 'wb') as f:
 				f.write(response.content)
 	except: pass
@@ -48,7 +52,7 @@ def banner():
 	print(" / / / ____/ /_/ / /|  / /___   / /_/ / /_/ / |/ |/ / / / / / /_/ / /_/ / /_/ /  ")
 	print("/_/ /_/   /_____/_/ |_/_____/  /_____/\\____/|__/|__/_/ /_/_/\\____/\\__,_/\\__,_/   ")
 	print("                                                                                 ")
-	print("Automate the download of faces from thispersondoesnotexist.com - Author: @curosim\n")
+	print("Automated download of faces from thispersondoesnotexist.com - Author: @curosim\n")
 
 
 def main():
