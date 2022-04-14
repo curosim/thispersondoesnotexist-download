@@ -1,4 +1,3 @@
-import urllib.request
 import time
 from random import uniform
 from multiprocessing.dummy import Pool as ThreadPool
@@ -6,7 +5,6 @@ import requests
 import glob
 import os
 import hashlib
-import time
 
 # Appendix for image file names, simply so we wont overwrite images from previous executions.
 timestamp = int(time.time())
