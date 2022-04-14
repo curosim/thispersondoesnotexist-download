@@ -26,7 +26,11 @@ def remove_duplicates():
 def download_image(i):
 	""" Download image from thispersondoesnotexist.com
 	"""
-	time.sleep(uniform(0.1,2))
+
+	# This sleep function is of course not really necessary, but since the website generates a new image based on time
+	# and not request, we want some delay in our requests to have more unique images. Duplicates get removed anyway.
+	time.sleep(uniform(0.1,5))
+	
 	print("  > Downloading Image: {0}".format(i+1))
 	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
 	try:
@@ -54,7 +58,7 @@ def main():
 	number_of_images = int(input("[*] Enter number of images: "))
 
 	# Download images with multiple threads
-	pool = ThreadPool(5)
+	pool = ThreadPool(4)
 	results = pool.map(download_image, range(0, number_of_images))
 	pool.close()
 	pool.join()
