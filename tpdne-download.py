@@ -18,12 +18,22 @@ def file_hash(filepath):
 def remove_duplicates():
 	""" Remove duplicate images, duplicates are found with MD5 Hash.
 	"""
+	total_removed = 0
 	hashes = []
-	for jpgfile in glob.iglob(os.path.join('./images/', "*.jpg")):
+
+	# Find all JPG Files with the appendix of this execution (timestamp)
+	for jpgfile in glob.iglob(os.path.join('./images/', "{0}*.jpg".format(timestamp))):
+		
+		# Calculate a MD5 Hash of the file
 		md5_hash = file_hash(jpgfile)
-		if md5_hash in hashes: os.remove(jpgfile)
+		if md5_hash in hashes:
+
+			# Remove the file
+			os.remove(jpgfile)
+			total_removed = total_removed+1
 		else: hashes.append(md5_hash)
-	return hashes
+	total_images = len(hashes)
+	return total_images, total_removed
 
 def download_image(i):
 	""" Download image from thispersondoesnotexist.com and save it as JPG.
@@ -36,6 +46,7 @@ def download_image(i):
 	print("  > Downloading Image: {0}".format(i+1))
 	headers = {'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)'}
 	try:
+		# Download image and save it as a file
 		response = requests.get('https://thispersondoesnotexist.com/image', headers=headers)
 		if response.status_code == 200:
 			img_path = "images/{0}_face_{1}.jpg".format(timestamp, i)
@@ -63,7 +74,7 @@ def main():
 	#change to maximum number of images needed
 	number_of_images = int(input("[*] Enter number of images: "))
 
-	# Download images with multiple threads
+	# Start image download in multiple threads
 	pool = ThreadPool(num_threads)
 	results = pool.map(download_image, range(0, number_of_images))
 	pool.close()
@@ -71,8 +82,8 @@ def main():
 
 	print("[*] {0} images downloaded".format(number_of_images))
 	print("[*] Removing duplicates now")
-	hashes = remove_duplicates()
-	print("[!] Found {0} unique images, {1} duplicates removed".format(len(hashes), number_of_images-len(hashes)))
+	total_images, total_removed = remove_duplicates()
+	print("[!] Found {0} unique images, {1} duplicates removed".format(total_images, total_removed))
 	print("[*] Execution finished")
 
 main()
