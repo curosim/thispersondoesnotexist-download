@@ -1,5 +1,5 @@
 # Thispersondoesnotexist.com Download
-Automated download of faces from (Thispersondoesnotexist.com)[https://thispersondoesnotexist.com]
+Automated download of faces from [Thispersondoesnotexist.com](https://thispersondoesnotexist.com)
 
 
 ### Description:
