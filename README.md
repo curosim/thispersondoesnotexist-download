@@ -1,6 +1,5 @@
 # Thispersondoesnotexist.com Download
-Automated download of faces from [Thispersondoesnotexist.com](https://thispersondoesnotexist.com)
-
+Automated download of faces from <a href="https://thispersondoesnotexist.com" target="_blank">Thispersondoesnotexist.com</a>
 
 ### Description:
 Downloads a certain amount of images from thispersondoesnotexist.com and stores them in a folder (./images/).
