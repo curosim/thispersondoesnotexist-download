@@ -73,6 +73,7 @@ def main():
 
 	#change to maximum number of images needed
 	number_of_images = int(input("[*] Enter number of images: "))
+	os.makedirs('./images/', exist_ok=True)
 
 	# Start image download in multiple threads
 	pool = ThreadPool(num_threads)
