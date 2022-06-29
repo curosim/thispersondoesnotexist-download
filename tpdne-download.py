@@ -75,7 +75,6 @@ def main():
 	number_of_images = int(input("[*] Enter number of images: "))
 	os.makedirs('./images/', exist_ok=True)
 
-	# Start image download in multiple threads
 	pool = ThreadPool(num_threads)
 	results = pool.map(download_image, range(0, number_of_images))
 	pool.close()
